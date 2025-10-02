@@ -9,20 +9,23 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y build-essential libncurses5-dev gawk git unzip file wget python3
+        sudo apt install -y build-essential libncurses5-dev gawk git unzip file wget python3 rsync
 
     - name: Clone OpenWrt source
       run: git clone https://github.com/openwrt/openwrt.git
 
-    - name: Prepare build config
+    - name: Prepare build config and update feeds
       run: |
         cp .config openwrt/.config
-        make -C openwrt defconfig
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        make defconfig
 
     - name: Build firmware
       run: make -C openwrt -j$(nproc)
@@ -31,4 +34,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: openwrt-firmware
-        path: openwrt/bin/targets/**/
+        path: openwrt/bin/targets/
+        
