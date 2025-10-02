@@ -14,18 +14,10 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y build-essential libncurses5-dev gawk git unzip file wget
+        sudo apt install -y build-essential libncurses5-dev gawk git unzip file wget python3
 
-    - name: Clone OpenWrt
-      run: |
-        git clone https://github.com/openwrt/openwrt.git
-        cd openwrt
-        cp ../.config .config
-        make defconfig
-        make -j$(nproc)
+    - name: Clone OpenWrt source
+      run: git clone https://github.com/openwrt/openwrt.git
 
-    - name: Upload firmware
-      uses: actions/upload-artifact@v3
-      with:
-        name: openwrt-firmware
-        path: openwrt/bin/targets/
+    - name: Prepare build config
+      working-directory
