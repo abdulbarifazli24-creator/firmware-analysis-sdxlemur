@@ -20,14 +20,12 @@ jobs:
       run: git clone https://github.com/openwrt/openwrt.git
 
     - name: Prepare build config
-      working-directory: openwrt
       run: |
-        cp ../.config .config
-        make defconfig
+        cp .config openwrt/.config
+        make -C openwrt defconfig
 
     - name: Build firmware
-      working-directory: openwrt
-      run: make -j$(nproc)
+      run: make -C openwrt -j$(nproc)
 
     - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
