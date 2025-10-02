@@ -31,3 +31,20 @@ This project is open-source under the MIT License.
 ## Contributions
 
 Pull requests and feedback are welcome. Let's build better firmware together!
+
+## LCD Display Control
+
+This device includes a built-in LCD screen for displaying time, battery status, and system info. Future updates will include GPIO-based control to toggle the display on/off via software switch.
+
+### Planned Features
+
+- 🖥️ Display system status (IP, uptime, signal strength)
+- 🔘 Toggle LCD on/off via OpenWrt LuCI or SSH
+- ⚡ Auto-dim or sleep mode when idle
+- 🔌 GPIO mapping for power control
+
+### Device Reference
+
+- Brand: CHANEVE
+- Chipset: Qualcomm SDX62 Snapdragon
+- Display: Internal LCD (shown in attached images)
