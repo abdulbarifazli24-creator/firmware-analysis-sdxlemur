@@ -34,3 +34,4 @@ jobs:
       with:
         name: openwrt-firmware
         path: openwrt/bin/targets/
+        path: openwrt/bin/targets/**/
