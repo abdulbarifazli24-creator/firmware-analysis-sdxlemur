@@ -11,7 +11,7 @@ This repository contains tools and workflows for analyzing and rebuilding firmwa
 
 ## Device Info
 
-- Model: SDXLEMUR MTP MBB PCIE V2
+- Model: SDXLEMUR MTP MBB PCIE V4
 - Kernel: 5.4.210-perf
 - Firmware: v1.31
 - CPU: ARMv7
