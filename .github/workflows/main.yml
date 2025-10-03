@@ -11,6 +11,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
+        submodules: true 
         clean: false
 
     - name: Install dependencies
