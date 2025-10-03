@@ -22,13 +22,15 @@ jobs:
     - name: Clone OpenWrt source
       run: git clone https://github.com/openwrt/openwrt.git
 
-    - name: Build and Configure OpenWrt
+        - name: Build and Configure OpenWrt
       run: |
         cd openwrt
         cp ../config_config .config
         make defconfig
-        make feeds update -a
-        make feeds install -a
+        
+        ./scripts/feeds update -a 
+        ./scripts/feeds install -a
+        
         make -j$(nproc)
 
     - name: Upload firmware artifact
