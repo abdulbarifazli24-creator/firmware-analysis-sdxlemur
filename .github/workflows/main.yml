@@ -22,7 +22,7 @@ jobs:
     - name: Clone OpenWrt source
       run: git clone https://github.com/openwrt/openwrt.git
 
-        - name: Build and Configure OpenWrt
+    - name: Build and Configure OpenWrt
       run: |
         cd openwrt
         cp ../config_config .config
