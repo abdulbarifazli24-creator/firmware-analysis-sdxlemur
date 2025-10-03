@@ -10,7 +10,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
+      with:
+        clean: false
+        
     - name: Install dependencies
       run: |
         sudo apt update
@@ -20,8 +22,9 @@ jobs:
       run: git clone https://github.com/openwrt/openwrt.git
 
     - name: Prepare build config and update feeds
+      working-directory: openwrt
       run: |
-        cp ../.config .config:
+        cp ../.config .config
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig
