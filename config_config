@@ -1,3 +1,9 @@
+#
+# OpenWrt Configuration Fragment
+# (This file is placed in repository root and copied to openwrt/.config before make defconfig)
+#
+
+# Target selection (essential)
 CONFIG_TARGET_ipq807x=y
 CONFIG_TARGET_ipq807x_generic=y
 CONFIG_TARGET_ipq807x_generic_DEVICE_qcom_sdx62=y
