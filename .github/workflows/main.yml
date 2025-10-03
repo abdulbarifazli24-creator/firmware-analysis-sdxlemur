@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         clean: false
-        
+
     - name: Install dependencies
       run: |
         sudo apt update
@@ -21,16 +21,13 @@ jobs:
     - name: Clone OpenWrt source
       run: git clone https://github.com/openwrt/openwrt.git
 
-    - name: Prepare build config and update feeds
-      working-directory: openwrt
+    - name: Build and Configure OpenWrt
       run: |
-        cp ../.config .config
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
-        make defconfig
-
-    - name: Build firmware
-      run: make -C openwrt -j$(nproc)
+        cp .config openwrt/.config
+        make -C openwrt defconfig
+        make -C openwrt scripts/feeds update -a
+        make -C openwrt scripts/feeds install -a
+        make -C openwrt -j$(nproc)
 
     - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
