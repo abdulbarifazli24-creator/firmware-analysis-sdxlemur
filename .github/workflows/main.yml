@@ -1,4 +1,4 @@
-Name: Build OpenWrt Firmware
+name: Build OpenWrt Firmware
 
 on:
   workflow_dispatch:
