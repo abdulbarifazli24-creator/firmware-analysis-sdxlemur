@@ -1,4 +1,4 @@
-name: Build OpenWrt Firmware
+Name: Build OpenWrt Firmware
 
 on:
   workflow_dispatch:
@@ -24,15 +24,16 @@ jobs:
 
     - name: Build and Configure OpenWrt
       run: |
-        cp .config openwrt/.config
-        make -C openwrt defconfig
-        make -C openwrt scripts/feeds update -a
-        make -C openwrt scripts/feeds install -a
-        make -C openwrt -j$(nproc)
+        cd openwrt
+        cp ../config_config .config
+        make defconfig
+        make scripts/feeds update -a
+        make scripts/feeds install -a
+        make -j$(nproc)
 
     - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
       with:
         name: openwrt-firmware
         path: openwrt/bin/targets/
-        
+          
