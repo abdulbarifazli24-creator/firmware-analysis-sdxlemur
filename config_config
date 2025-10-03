@@ -1,12 +1,13 @@
 #
-# OpenWrt Configuration Fragment
-# (This file is placed in repository root and copied to openwrt/.config before make defconfig)
+# OpenWrt Configuration Fragment for EX-LINK HMF300 (SDXLEMUR)
 #
 
-# Target selection (essential)
+# Target selection (essential) - Ensures IPQ807x/SDX62 is selected
 CONFIG_TARGET_ipq807x=y
 CONFIG_TARGET_ipq807x_generic=y
 CONFIG_TARGET_ipq807x_generic_DEVICE_qcom_sdx62=y
+CONFIG_TARGET_BOARD="ipq807x"     # Added for stability
+CONFIG_TARGET_SUBTARGET="generic" # Added for stability
 
 # Core system
 CONFIG_PACKAGE_busybox=y
@@ -18,20 +19,22 @@ CONFIG_PACKAGE_firewall4=y
 CONFIG_PACKAGE_iptables=y
 
 # Wireless & performance
-CONFIG_PACKAGE_wpad-basic-wolfssl=y
-CONFIG_PACKAGE_hostapd-common=y
+CONFIG_PACKAGE_wpad-basic-wolfssl=y # WPA/WPA2/WPA3 support
+CONFIG_PACKAGE_hostapd-common=y      # Hostapd utilities
 CONFIG_PACKAGE_wireless-tools=y
 CONFIG_PACKAGE_etherwake=y
 
-# WiFi 6E & AX3600
+# WiFi 6E & AX3600 (Required for ath11k driver on IPQ807x/SDX62)
 CONFIG_PACKAGE_kmod-ath11k=y
 CONFIG_PACKAGE_kmod-ath11k-firmware=y
 CONFIG_PACKAGE_kmod-cfg80211=y
 
-# LTE/5G modem support
+# LTE/5G modem support (Required for QMI/Qualcomm modems)
+# Supports 5G/4G/3G connectivity
 CONFIG_PACKAGE_kmod-usb-net-qmi-wwan=y
 CONFIG_PACKAGE_kmod-usb-serial-qualcomm=y
 CONFIG_PACKAGE_kmod-usb-serial-option=y
+CONFIG_PACKAGE_uqmi=y # ⬅️ اضافه شده: ابزار حیاتی برای مدیریت مودم‌های QMI
 
 # VPN & tunneling
 CONFIG_PACKAGE_kmod-wireguard=y
@@ -43,18 +46,19 @@ CONFIG_PACKAGE_luci-app-sqm=y
 CONFIG_PACKAGE_tc=y
 CONFIG_PACKAGE_iptables-mod-ipopt=y
 
-# LuCI minimal
+# LuCI minimal (User friendly web interface)
 CONFIG_PACKAGE_luci=y
 CONFIG_PACKAGE_luci-ssl=y
 CONFIG_PACKAGE_luci-app-opkg=y
 CONFIG_PACKAGE_luci-app-firewall=y
+CONFIG_PACKAGE_luci-proto-qmi=y # ⬅️ اضافه شده: رابط LuCI برای تنظیمات مودم QMI
 
 # Monitoring tools
 CONFIG_PACKAGE_iftop=y
 CONFIG_PACKAGE_htop=y
 CONFIG_PACKAGE_screen=y
 
-# Optional: LCD & GPIO
+# Optional: LCD & GPIO (فعال شد)
 CONFIG_PACKAGE_kmod-lcd=y
 CONFIG_PACKAGE_kmod-leds-gpio=y
 CONFIG_PACKAGE_kmod-gpio-button-hotplug=y
