@@ -27,8 +27,8 @@ jobs:
         cd openwrt
         cp ../config_config .config
         make defconfig
-        make scripts/feeds update -a
-        make scripts/feeds install -a
+        make feeds update -a
+        make feeds install -a
         make -j$(nproc)
 
     - name: Upload firmware artifact
@@ -36,4 +36,3 @@ jobs:
       with:
         name: openwrt-firmware
         path: openwrt/bin/targets/
-          
