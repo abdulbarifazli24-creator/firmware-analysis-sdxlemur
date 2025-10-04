@@ -20,8 +20,12 @@ jobs:
         sudo apt update
         sudo apt install -y build-essential libncurses5-dev gawk git unzip file wget python3 rsync
 
-    - name: Clone SDXLEMUR OpenWrt Source
-      run: git clone -b development-SDXLEMUR https://github.com/iamromulan/quectel-rgmii-toolkit.git openwrt
+    - name: Clone OpenWrt and Apply Patches
+      run: |
+        git clone https://github.com/openwrt/openwrt.git openwrt
+        git clone -b development-SDXLEMUR https://github.com/iamromulan/quectel-rgmii-toolkit.git sdxlemur_toolkit
+        cp -r sdxlemur_toolkit/target openwrt/
+        cp -r sdxlemur_toolkit/toolchain openwrt/
 
     - name: Build and Configure OpenWrt
       run: |
@@ -39,3 +43,4 @@ jobs:
       with:
         name: openwrt-firmware
         path: openwrt/bin/targets/qualcomm/sdxlemur/
+        
