@@ -32,7 +32,8 @@ jobs:
         ./scripts/feeds update -a 
         ./scripts/feeds install -a
         
-        # 3. Finalize configuration non-interactively to avoid failure
+        # 3. Finalize configuration non-interactively
+        #    'yes ""' ensures all new, unwanted options default to 'No' (N)
         yes "" | make oldconfig   
         
         # 4. Check and install all necessary prerequisites
