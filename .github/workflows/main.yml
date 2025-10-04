@@ -25,17 +25,20 @@ jobs:
     - name: Build and Configure OpenWrt
       run: |
         cd openwrt
-        # 1. Copy config file
+        # 1. Copy the clean config file
         cp ../config_config .config
 
         # 2. Update and install feeds
         ./scripts/feeds update -a 
         ./scripts/feeds install -a
         
-        # 3. Finalize configuration, keeping SDXLEMUR as the target
-        make oldconfig   
+        # 3. Finalize configuration non-interactively to avoid failure
+        yes "" | make oldconfig   
         
-        # 4. Start build process
+        # 4. Check and install all necessary prerequisites
+        make prereq
+
+        # 5. Start build process (Optimal speed)
         make -j$(nproc)
 
     - name: Upload firmware artifact
@@ -43,5 +46,5 @@ jobs:
       with:
         name: openwrt-firmware
         # Upload only the IPQ807x/SDXLEMUR target files
-        path: openwrt/bin/targets/ipq807x/
+        path: openwrt/bin/targets/ipq807x/generic/
         
