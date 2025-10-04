@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04-4-cores 
 
     steps:
     - name: Checkout repository
@@ -25,27 +25,17 @@ jobs:
     - name: Build and Configure OpenWrt
       run: |
         cd openwrt
-        # 1. Copy the clean config file
         cp ../config_config .config
-
-        # 2. Update and install feeds
         ./scripts/feeds update -a 
-        ./scripts/feeds install -a
-        
-        # 3. Finalize configuration non-interactively
-        #    'yes ""' ensures all new, unwanted options default to 'No' (N)
+        ./scripts/feeds install -a 
         yes "" | make oldconfig   
-        
-        # 4. Check and install all necessary prerequisites
         make prereq
-
-        # 5. Start build process (Optimal speed)
+        make clean V=s
         make -j$(nproc)
+        make -j1 V=s image
 
     - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
       with:
         name: openwrt-firmware
-        # Upload only the IPQ807x/SDXLEMUR target files
         path: openwrt/bin/targets/ipq807x/generic/
-        
