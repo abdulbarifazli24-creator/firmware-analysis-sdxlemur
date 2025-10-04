@@ -5,21 +5,19 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 360 
+    runs-on: ubuntu-22.04-4-cores 
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        submodules: true 
+        submodules: true
         clean: false
 
     - name: Install dependencies
       run: |
         sudo apt update
         sudo apt install -y build-essential libncurses5-dev gawk git unzip file wget python3 rsync
-
     - name: Clone OpenWrt source
       run: git clone https://github.com/openwrt/openwrt.git
 
@@ -27,17 +25,15 @@ jobs:
       run: |
         cd openwrt
         cp ../config_config .config
-        ./scripts/feeds update -a 
-        ./scripts/feeds install -a 
-        yes "" | make oldconfig   
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        yes "" | make oldconfig
         make prereq
         make clean V=s
         make -j$(nproc)
         make -j1 V=s image
-
     - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
       with:
-        name: openwrt-firmware
-        path: openwrt/bin/targets/ipq807x/generic/
-        
+        name: firmware
+        path: openwrt/bin/targets/ipq807x/generic/firmware.bin
