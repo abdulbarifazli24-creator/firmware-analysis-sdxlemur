@@ -1,4 +1,4 @@
-name: Build OpenWrt Firmware for SDXLEMUR - OVERHAUL PATH DISCOVERY
+name: Build OpenWrt Firmware for SDXLEMUR - DEBUG
 
 on:
   workflow_dispatch:
@@ -37,6 +37,17 @@ jobs:
         make clean V=s
         make -j$(nproc) V=s
 
+    - name: DEBUG: Verify Build Output Directory
+      run: |
+        echo "Checking for targets directory existence..."
+        if [ -d "openwrt/bin/targets" ]; then
+          echo "SUCCESS: openwrt/bin/targets exists. Listing content..."
+          ls -l openwrt/bin/targets/
+        else
+          echo "FAILURE: openwrt/bin/targets DOES NOT EXIST. This means the 'make' command failed."
+          exit 1
+        fi
+        
     - name: DISCOVERY: Upload ALL Targets Folder
       uses: actions/upload-artifact@v4
       with:
