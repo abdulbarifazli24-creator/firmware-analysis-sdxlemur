@@ -1,4 +1,4 @@
-name: OpenWrt SDXLEMUR Build Simple
+name: OpenWrt SDXLEMUR Build Stable
 
 on:
   workflow_dispatch:
@@ -6,13 +6,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 360 
+    timeout-minutes: 360
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        submodules: true 
+        submodules: true
         clean: false
 
     - name: Install dependencies
@@ -20,19 +20,28 @@ jobs:
         sudo apt update
         sudo apt install -y build-essential libncurses5-dev gawk git unzip file wget python3 rsync
 
-    - name: Clone OpenWrt and Apply Patches
+    - name: Clone OpenWrt and Apply Toolkit
       run: |
         git clone https://github.com/openwrt/openwrt.git openwrt
-        git clone -b overhaul-SDXLEMUR https://github.com/iamromulan/quectel-rgmii-toolkit.git sdxlemur_toolkit
+        git clone -b development-SDXLEMUR https://github.com/iamromulan/quectel-rgmii-toolkit.git sdxlemur_toolkit
         cp -r sdxlemur_toolkit/. openwrt/
+
+    - name: Verify config_config presence
+      run: |
+        test -f config_config || (echo "Missing config_config file" && exit 1)
 
     - name: Build OpenWrt
       run: |
         cd openwrt
         cp ../config_config .config
-        ./scripts/feeds update -a 
-        ./scripts/feeds install -a 
-        yes "" | make oldconfig   
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        make defconfig
         make prereq
         make -j$(nproc) V=s
-        
+
+    - name: Upload firmware
+      uses: actions/upload-artifact@v4
+      with:
+        name: SDXLEMUR-firmware
+        path: openwrt/bin/targets/
