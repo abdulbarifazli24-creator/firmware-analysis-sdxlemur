@@ -1,4 +1,4 @@
-name: Build OpenWrt Firmware for SDXLEMUR
+name: Build OpenWrt Firmware for SDXLEMUR - PATH DISCOVERY
 
 on:
   workflow_dispatch:
@@ -37,9 +37,8 @@ jobs:
         make clean V=s
         make -j$(nproc) V=s
 
-    - name: Upload firmware artifact
+    - name: DISCOVERY: Upload ALL Targets Folder
       uses: actions/upload-artifact@v4
       with:
-        name: openwrt-firmware
-        path: openwrt/bin/targets/qualcomm/sdxlemur/
-        
+        name: openwrt-targets-DISCOVERY
+        path: openwrt/bin/targets/
