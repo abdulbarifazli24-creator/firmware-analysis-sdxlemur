@@ -26,7 +26,7 @@ jobs:
         git clone -b development-SDXLEMUR https://github.com/iamromulan/quectel-rgmii-toolkit.git sdxlemur_toolkit
         cp -r sdxlemur_toolkit/. openwrt/
 
-        - name: Build and Configure OpenWrt
+    - name: Build and Configure OpenWrt
       run: |
         cd openwrt
         cp ../config_config .config
@@ -42,4 +42,3 @@ jobs:
       with:
         name: openwrt-targets-DISCOVERY
         path: openwrt/bin/targets/
-        
